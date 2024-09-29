@@ -1,10 +1,13 @@
-import { InputAtom } from "../presentation/atoms/input.atom";
 import "./app.css";
+
+import { LoginPage } from "@/presentation/pages/login.page";
+import { PanelPage } from "../presentation/pages/panel.page";
 
 const App = () => {
   return (
     <>
-      <InputAtom label="teste"/>
+      {/* <LoginPage/> */}
+      <PanelPage/>
     </>
   );
 }
