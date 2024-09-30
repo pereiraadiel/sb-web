@@ -1,21 +1,46 @@
-import { ComponentProps, useState } from "react";
-import { PanelTemplate } from "../templates/panel.template";
+import { ComponentProps, useEffect, useMemo, useState } from "react";
+import { StoreIcon, ShoppingBasketIcon, TicketsIcon } from 'lucide-react'
+import { PanelTemplate } from "@/presentation/templates/panel.template";
+import { StandsOrganism } from "../organisms/stands.organism";
 
-type PageType = 'Barraquinhas' | 'Produtos' | 'Bilhetes';
+type PageType = {
+	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
+	icon: React.ReactNode
+};
 type PanelPage = ComponentProps<'div'>;
 
 const PanelPage: React.FC<PanelPage> = () => {
-	const pages: Array<PageType> = ['Barraquinhas', 'Produtos', 'Bilhetes'];
+	const pages: Array<PageType> = useMemo(() => [{
+		name: 'Barraquinhas',
+		icon: <StoreIcon/>
+	}, {
+		name: 'Produtos',
+		icon: <ShoppingBasketIcon/>
+	}, {
+		name: 'Bilhetes',
+		icon: <TicketsIcon/>
+	}], []);
+
 	const pageComponents = {
-		'Barraquinhas': <p>Barraquinhas</p>,
-		'Produtos': <p>Produtos</p>,
-		'Bilhetes': <p>Bilhetes</p>
+		'Barraquinhas': <StandsOrganism/>,
+		'Produtos': <p> <ShoppingBasketIcon/> Produtos</p>,
+		'Bilhetes': <p><TicketsIcon/> Bilhetes</p>
 	} as const;
-	const [currentPage, setCurrentPage] = useState<PageType>('Barraquinhas');
+	const [currentPage, setCurrentPage] = useState<PageType>();
+
+	useEffect(() => {
+		if(!currentPage) {
+			setCurrentPage(pages[0]);
+		}
+	}, [currentPage, setCurrentPage, pages]);
+
+	if(!currentPage) {
+		return null;
+	}
 
 	return (
-		<PanelTemplate pages={pages} onPageChange={t => setCurrentPage(t as PageType)} currentPage={currentPage} >
-			{pageComponents[currentPage]}
+		<PanelTemplate pages={pages} onPageChange={(page: string) => setCurrentPage(pages.find(p => p.name === page))} currentPage={currentPage} >
+			{pageComponents[currentPage.name]}
 		</PanelTemplate>
 	);
 }

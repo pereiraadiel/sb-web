@@ -1,13 +1,19 @@
 import { ComponentProps } from "react";
 
+import { cn } from '@/core/lib/utils';
 import { MainTemplate } from "@/presentation/templates/main.template";
 import { SidebarOrganism } from "@/presentation/organisms/sidebar.organism";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
 
+type PageType = {
+	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
+	icon: React.ReactNode
+};
+
 type PanelTemplate = ComponentProps<'div'> & {
 	children: React.ReactNode,
-	pages: string[],
-	currentPage: string,
+	pages: PageType[],
+	currentPage: PageType,
 	onPageChange?: (page: string) => void
 }
 
@@ -32,10 +38,12 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 						return (
 							<ButtonAtom 
 								key={index} 
-								className={page === currentPage ? currentPageStyle : otherPageStyle}
-								onClick={() => handlePageChange(page)}
+								className={cn('text-left items-start pl-2 mb-1 hover:bg-dark-tertiary/60', page === currentPage ? currentPageStyle : otherPageStyle)}
+								onClick={() => handlePageChange(page.name)}
 							>
-								{page}
+								<div className="flex gap-2">
+									{page.icon} {page.name}
+								</div>
 							</ButtonAtom>
 						);
 					})}
