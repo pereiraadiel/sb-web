@@ -4,11 +4,11 @@ import { PanelTemplate } from "@/presentation/templates/panel.template";
 import { StandsOrganism } from "../organisms/stands.organism";
 import { ProductsOrganism } from "../organisms/products.organism";
 import { TicketsOrganism } from "../organisms/tickets.organism";
-import { useLocation, useNavigation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // useNavigate para controlar a navegação
 
 type PageType = {
-	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
-	icon: React.ReactNode
+	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes';
+	icon: React.ReactNode;
 };
 type PanelPage = ComponentProps<'div'>;
 
@@ -29,35 +29,32 @@ const PanelPage: React.FC<PanelPage> = () => {
 		'Produtos': <ProductsOrganism/>,
 		'Bilhetes': <TicketsOrganism/>
 	} as const;
+
 	const [currentPage, setCurrentPage] = useState<PageType>();
-	const navigation = useNavigation();
+	const navigate = useNavigate();
 	const location = useLocation();
 
 	const handlePageChange = (page: string) => {
-		console.log('location: ',  location)
-		if (location && location.pathname) {
-			console.log('page: ', page, pages)
-			location.pathname = page.toLocaleLowerCase();
-			setCurrentPage(pages.find(p => p.name.toLocaleLowerCase() === page.toLocaleLowerCase()));
+		const selectedPage = pages.find(p => p.name.toLowerCase() === page.toLowerCase());
+		if (selectedPage) {
+			setCurrentPage(selectedPage);
+			navigate(`/${selectedPage.name.toLowerCase()}`);
 		}
-		
-	}
+	};
 
 	useEffect(() => {
-		const pathname = window.location.pathname.split('/').pop();
-		console.log(pathname, pages)
-		if(!currentPage) {
-			setCurrentPage(pathname ? pages.find(p => p.name.toLowerCase() === pathname) : pages[0]);
-			console.log('currentPage: ', currentPage)
-			const newPathname = currentPage ? (currentPage as PageType).name.toLowerCase() : pages[0].name.toLowerCase();
-			if (navigation && navigation.location) {
-				navigation.location.pathname = newPathname;
-				setCurrentPage(pages.find(p => p.name === newPathname));
-			}
-		}
-	}, [currentPage, setCurrentPage, pages]);
+		const pathname = location.pathname.split('/').pop();
+		const matchedPage = pages.find(p => p.name.toLowerCase() === pathname);
 
-	if(!currentPage) {
+		if (!currentPage && matchedPage) {
+			setCurrentPage(matchedPage);
+		} else if (!currentPage) {
+			setCurrentPage(pages[0]);
+			navigate(`/${pages[0].name.toLowerCase()}`);
+		}
+	}, [currentPage, location.pathname, navigate, pages]);
+
+	if (!currentPage) {
 		return null;
 	}
 
@@ -66,6 +63,6 @@ const PanelPage: React.FC<PanelPage> = () => {
 			{pageComponents[currentPage.name]}
 		</PanelTemplate>
 	);
-}
+};
 
 export { PanelPage };

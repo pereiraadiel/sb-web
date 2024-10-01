@@ -1,8 +1,10 @@
 import "./app.css";
+import {  createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { LoginPage } from "@/presentation/pages/login.page";
-import { PanelPage } from "../presentation/pages/panel.page";
-import {  createBrowserRouter, RouterProvider } from "react-router-dom";
+import { PanelPage } from "@/presentation/pages/panel.page";
+import { ErrorPage } from "@/presentation/pages/error.page";
+import { StandPage } from "@/presentation/pages/stand.page";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +22,10 @@ const routes = createBrowserRouter([
   {
     path: '/bilhetes',
     element: <PanelPage/>
+  },
+  {
+    path: '*',
+    element: <ErrorPage/>
   }
 ])
 
