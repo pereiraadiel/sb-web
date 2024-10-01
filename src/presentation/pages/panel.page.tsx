@@ -2,6 +2,8 @@ import { ComponentProps, useEffect, useMemo, useState } from "react";
 import { StoreIcon, ShoppingBasketIcon, TicketsIcon } from 'lucide-react'
 import { PanelTemplate } from "@/presentation/templates/panel.template";
 import { StandsOrganism } from "../organisms/stands.organism";
+import { ProductsOrganism } from "../organisms/products.organism";
+import { TicketsOrganism } from "../organisms/tickets.organism";
 
 type PageType = {
 	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
@@ -23,8 +25,8 @@ const PanelPage: React.FC<PanelPage> = () => {
 
 	const pageComponents = {
 		'Barraquinhas': <StandsOrganism/>,
-		'Produtos': <p> <ShoppingBasketIcon/> Produtos</p>,
-		'Bilhetes': <p><TicketsIcon/> Bilhetes</p>
+		'Produtos': <ProductsOrganism/>,
+		'Bilhetes': <TicketsOrganism/>
 	} as const;
 	const [currentPage, setCurrentPage] = useState<PageType>();
 

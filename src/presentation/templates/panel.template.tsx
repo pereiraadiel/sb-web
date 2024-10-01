@@ -4,6 +4,7 @@ import { cn } from '@/core/lib/utils';
 import { MainTemplate } from "@/presentation/templates/main.template";
 import { SidebarOrganism } from "@/presentation/organisms/sidebar.organism";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
+import { SeparatorAtom } from "../atoms/separtator.atom";
 
 type PageType = {
 	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
@@ -33,7 +34,7 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 			<SidebarOrganism className="flex-col justify-between">
 				<nav className="flex-1 min-h-[92%]">
 					<h1 className="text-center font-semibold text-xl mb-3">Tessera</h1>
-					<div className="h-0.5 w-56 bg-dark-tertiary mb-3 m-auto"/>
+					<SeparatorAtom className="my-3"/>
 					{pages.map((page, index) => {
 						return (
 							<ButtonAtom 
@@ -49,7 +50,8 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 					})}
 				</nav>
 				
-				<div className="h-0.5 w-56 bg-dark-tertiary my-3 m-auto"/>
+				<SeparatorAtom className="my-3"/>
+
 				<ButtonAtom className="mb-2 bg-red-secondary text-light-primary">Sair</ButtonAtom>
       </SidebarOrganism>
 			
