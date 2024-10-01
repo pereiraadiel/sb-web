@@ -8,7 +8,7 @@ const CardAtom: React.FC<CardAtom> = ({
 	...props
 }) => {
 	return (
-		<div className={cn("w-full flex flex-col rounded-2xl bg-dark-secondary", className)} {...props}>
+		<div className={cn("w-full flex flex-col rounded-2xl bg-dark-secondary py-2 pr-2", className)} {...props}>
 			{children}
 		</div>
 	);

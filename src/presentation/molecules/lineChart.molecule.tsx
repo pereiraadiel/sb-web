@@ -1,55 +1,72 @@
-import { PureComponent } from 'react';
+import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const data = [
-	{
-    name: '04/10',
-    vendas: 124,
-    "R$": 320,
-    amt: 2210,
-  },
-  {
-    name: '05/10',
-    vendas: 150,
-    "R$": 520,
-    amt: 2400,
-  },
-  {
-    name: '06/10',
-    vendas: 135,
-    "R$": 450,
-    amt: 2210,
-  },
-  
-];
+interface DataItem {
+  [key: string]: string | number;
+}
 
-export default class LineChartMolecule extends PureComponent {
-  static demoUrl = 'https://codesandbox.io/p/sandbox/line-chart-width-xaxis-padding-8v7952';
+interface LineChartMoleculeProps {
+  data: DataItem[];
+  dataValues: {
+    value: string;
+    color: string;
+  }[];
+}
 
-  render() {
+interface TooltipProps {
+  active?: boolean;
+  payload?: {
+    name: string;
+    value: number;
+  }[];
+}
+
+const CustomTooltip: React.FC<TooltipProps> = ({ active, payload }) => {
+  if (active && payload && payload.length) {
     return (
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-					style={{margin: '0 auto'}}
-          margin={{
-            top: 5,
-            right: 5,
-            left: 0,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line type="monotone" dataKey="vendas" stroke="#8884d8" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="R$" stroke="#82ca9d" />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="bg-dark-tertiary p-2">
+        {payload.map((item) => {
+          // se o valor for inteiro, não exibir casas decimais, e exibir 2 casas decimais caso contrário usando virgula, 
+          const value = Number(item.value) % 1 === 0 ? item.value : Number(item.value).toLocaleString('pt-BR', {minimumFractionDigits: 2, maximumFractionDigits: 2}).replace('.', ',');
+          return (
+            <p key={item.name} className="label">{`${item.name} : ${value}`}</p>
+          )
+        })}
+      </div>
     );
   }
-}
+
+  return null;
+};
+
+
+const LineChartMolecule: React.FC<LineChartMoleculeProps> = ({ data, dataValues }) => {
+  console.warn(dataValues)
+  return (
+    <ResponsiveContainer width="100%" height="100%">
+      <LineChart
+        width={500}
+        height={300}
+        data={data}
+        style={{margin: '0 auto'}}
+        margin={{
+          top: 5,
+          right: 5,
+          left: 0,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip content={<CustomTooltip/>} />
+        <Legend />
+        {dataValues.map(({value, color}) => {
+          return <Line key={value} type="monotone" dataKey={value} stroke={color} activeDot={{ r: 8 }} />
+        })}
+      </LineChart>
+    </ResponsiveContainer>
+  );
+};
+
+export default LineChartMolecule;

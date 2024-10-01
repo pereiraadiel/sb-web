@@ -17,27 +17,17 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 			<GridList>
 				<CardAtom className="h-64 p-3">
 					<h2>Barraquinha 1</h2>
-					<LineChartMolecule/>
-				</CardAtom>
-				<CardAtom className="h-64 p-3">
-					<p>Barraquinha 2</p>
-					<LineChartMolecule/>
-				</CardAtom>
-				<CardAtom className="h-64 p-3">
-					<p>Barraquinha 3</p>
-					<LineChartMolecule/>
-				</CardAtom>
-				<CardAtom className="h-64 p-3">
-					<p>Barraquinha 4</p>
-					<LineChartMolecule/>
-				</CardAtom>
-				<CardAtom className="h-64 p-3">
-					<p>Barraquinha 5</p>
-					<LineChartMolecule/>
-				</CardAtom>
-				<CardAtom className="h-64 p-3">
-					<p>Barraquinha 6</p>
-					<LineChartMolecule/>
+					<LineChartMolecule data={[
+						{ name: '04/10', vendas: 10, R$: 50.0 },
+						{ name: '05/10', vendas: 13, R$: 65.2 },
+						{ name: '06/10', vendas: 15, R$: 75.15 },
+					]} dataValues={[{
+						value: 'vendas',
+						color: '#8884d8'
+					}, {
+						value: 'R$',
+						color: '#82ca9d'
+					}]}/>
 				</CardAtom>
 			</GridList>
 		</div>

@@ -14,10 +14,10 @@ const ButtonAtom: React.FC<ButtonAtom> = ({
 	loading,
 	...props
 }) => {
-	const styleClass = loading ? "bg-light-secondary/60" : success ? "bg-green-secondary" : "bg-light-secondary" 
+	const styleClass = loading ? "bg-dark-tertiary/60" : success ? "bg-green-secondary text-dark-tertiary" : "bg-dark-tertiary" 
 	return (
 		<button 
-			className={cn("w-full h-10 flex flex-col items-center justify-center rounded-2xl text-dark-secondary uppercase", styleClass, className)} 
+			className={cn("w-full h-10 flex flex-col items-center justify-center rounded-2xl text-light-secondary uppercase", styleClass, className)} 
 			disabled={loading || success}
 			{...props}
 			>
