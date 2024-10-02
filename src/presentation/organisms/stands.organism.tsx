@@ -1,20 +1,25 @@
 import { ComponentProps, useEffect, useState } from "react";
+import { Check, StoreIcon } from "lucide-react";
 
 import { cn } from "@/core/lib/utils";
 import { GridList } from "@/presentation/atoms/gridList.atom";
-import { Check, StoreIcon } from "lucide-react";
 import { CardAtom } from "@/presentation/atoms/card.atom";
 import { SeparatorAtom } from "@/presentation/atoms/separtator.atom";
-import { ButtonAtom } from "../atoms/button.atom";
-import LineChartMolecule from "../molecules/lineChart.molecule";
+import { ButtonAtom } from "@/presentation/atoms/button.atom";
+import LineChartMolecule from "@/presentation/molecules/lineChart.molecule";
 
 type StandsOrganism = ComponentProps<'div'>;
+
+type Metric = {
+	sales: number,
+	amount: number,
+	date: string,
+}
 
 type Stand ={
 	name: string,
 	code: string,
-	sales: number,
-	amount: number,
+	metrics: Metric[]
 }
 
 type Sales = {
@@ -26,32 +31,81 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 
 	const [stands, setStands] = useState<Stand[]>([]);
 	const [selectedStands, setSelectedStands] = useState<Stand[]>([]);
-
+	const [metrics, setMetrics] = useState<{[key: string]: Sales }>({});
 
 	useEffect(() => {
 		setStands([
 			{
 				name: 'Barraquinha 1',
 				code: '1',
-				sales: 15,
-				amount: 57
+				metrics: [
+					{
+						sales: 15,
+						amount: 75,
+						date: '2021-10-04'
+					},
+					{
+						sales: 23,
+						amount: 115,
+						date: '2021-10-05'
+					},
+					{
+						sales: 5,
+						amount: 25,
+						date: '2021-10-06'
+					}
+				]
 			},
 			{
 				name: 'Barraquinha 2',
 				code: '2',
-				sales: 23,
-				amount: 45
+				metrics: [
+					{
+						sales: 12,
+						amount: 60,
+						date: '2021-10-04'
+					},
+					{
+						sales: 30,
+						amount: 150,
+						date: '2021-10-05'
+					},
+					{
+						sales: 45,
+						amount: 225,
+						date: '2021-10-06'
+					}
+				]
 			},
 			{
 				name: 'Barraquinha 3',
 				code: '3',
-				sales: 45,
-				amount: 32
+				metrics: [
+					{
+						sales: 21,
+						amount: 105,
+						date: '2021-10-04'
+					},
+					{
+						sales: 31,
+						amount: 155,
+						date: '2021-10-05'
+					},
+					{
+						sales: 38,
+						amount: 190,
+						date: '2021-10-06'
+					},
+					{
+						sales: 35,
+						amount: 175,
+						date: '2021-10-07'
+					}
+				]
 			}
 		])
 	}, [])
 
-	const [sales, setSales] = useState<Sales>();
 
 	const handleSelectStand = (stand: Stand) => {
 		if (selectedStands.includes(stand)) {
@@ -62,13 +116,28 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 	}
 
 	useEffect(() => {
-		const sales = selectedStands.reduce((acc, stand) => acc + stand.sales, 0);
-		const amount = selectedStands.reduce((acc, stand) => acc + stand.amount, 0);
+		const selectedStandMetricsByDate = selectedStands.map(stand => stand.metrics).flat().reduce<{[key: string]: Metric[]}>((acc, metric) => {
+			if (acc[metric.date]) {
+				acc[metric.date].push(metric);
+			} else {
+				acc[metric.date] = [metric];
+			}
+			return acc;
+		}, {});
 
-		setSales({
-			sales,
-			amount
-		});
+		const totalSalesByDate = Object.entries(selectedStandMetricsByDate).reduce<{[key: string]: Sales}>((acc, [date, metrics]) => {
+			const sales = metrics.reduce((acc, metric) => acc + metric.sales, 0);
+			const amount = metrics.reduce((acc, metric) => acc + metric.amount, 0);
+			acc[date] = {
+				sales,
+				amount
+			};
+			return acc;
+		}, {});
+
+
+
+		setMetrics(totalSalesByDate);
 	}, [selectedStands])
 
 	return (
@@ -78,23 +147,29 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 			<SeparatorAtom className="my-2"/>
 
 			<h2 className="text-xl font-bold ml-2 mb-2">Vendas</h2>
-			<div className="mx-8 flex-1 h-full max-h-[620px]">
-				<CardAtom className="w-full flex-1 h-[100%]">
-					{sales && (
-						<LineChartMolecule data={[
-									// { name: '04/10', vendas: sales[0], R$: sales[0] * price },
-									{ name: '04/10', vendas: sales.sales, R$: sales.amount },
-								]} dataValues={[{
-									value: 'vendas',
-									color: '#8884d8'
-								}, {
-									value: 'R$',
-									color: '#82ca9d'
-								}]}/>
+				<div className="mx-8 flex-1 h-full max-h-[620px]">
+					{selectedStands.length > 0 && (
+						<CardAtom className="w-full flex-1 h-[100%]">
+							{ metrics && (
+								<LineChartMolecule data={
+										Object.entries(metrics).map(([date, metric]) => {
+											return {
+												name: date,
+												vendas: metric.sales,
+												R$: metric.amount
+											}
+										})
+									} dataValues={[{
+											value: 'vendas',
+											color: '#8884d8'
+										}, {
+											value: 'R$',
+											color: '#82ca9d'
+										}]}/>
+							)}
+						</CardAtom>
 					)}
-				</CardAtom>
-			</div>
-
+				</div>
 			<SeparatorAtom className="my-4"/>
 					
 			<h3 className="text-light-secondary text-xl font-semibold">Selecione as barraquinhas</h3>
