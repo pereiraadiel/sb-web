@@ -44,7 +44,7 @@ const PieChartMolecule: React.FC<PieChartMoleculeProps> = ({ data }) => {
 
   return (
     <div className='relative w-60 h-80 z-0'>
-      <PieChart width={240} height={300} className='z-100'>
+      <PieChart width={240} height={320} className='z-100'>
         <Pie
           data={data}
           cx={120}
@@ -63,7 +63,6 @@ const PieChartMolecule: React.FC<PieChartMoleculeProps> = ({ data }) => {
         </Pie>
         <Tooltip content={<CustomTooltip/>} />
         <Legend />
-        <text x={120} y={120} dy={8} textAnchor="middle" fill={colors.dark.primary}>{total}</text>
       </PieChart>
 			{/* texto abaixo será centralizado no meio do gráfico */}
 			<div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  z-10 -mt-9 ml-1 text-center'>

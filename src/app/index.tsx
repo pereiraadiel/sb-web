@@ -4,7 +4,7 @@ import {  createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LoginPage } from "@/presentation/pages/login.page";
 import { PanelPage } from "@/presentation/pages/panel.page";
 import { ErrorPage } from "@/presentation/pages/error.page";
-import { StandPage } from "@/presentation/pages/stand.page";
+import { StandDetailsPage } from "@/presentation/pages/standDetails.page";
 
 const routes = createBrowserRouter([
   {
@@ -14,6 +14,10 @@ const routes = createBrowserRouter([
   {
     path: '/barraquinhas',
     element: <PanelPage/>
+  },
+  {
+    path: '/barraquinhas/:code',
+    element: <StandDetailsPage/>
   },
   {
     path: '/produtos',

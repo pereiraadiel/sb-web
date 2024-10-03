@@ -1,5 +1,5 @@
 import { ComponentProps, useEffect, useState } from "react";
-import { Check, StoreIcon } from "lucide-react";
+import { ArrowBigRightDashIcon, Check, StoreIcon } from "lucide-react";
 
 import { cn } from "@/core/lib/utils";
 import { GridList } from "@/presentation/atoms/gridList.atom";
@@ -7,6 +7,7 @@ import { CardAtom } from "@/presentation/atoms/card.atom";
 import { SeparatorAtom } from "@/presentation/atoms/separtator.atom";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
 import LineChartMolecule from "@/presentation/molecules/lineChart.molecule";
+import { useNavigate } from "react-router-dom";
 
 type StandsOrganism = ComponentProps<'div'>;
 
@@ -32,6 +33,8 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 	const [stands, setStands] = useState<Stand[]>([]);
 	const [selectedStands, setSelectedStands] = useState<Stand[]>([]);
 	const [metrics, setMetrics] = useState<{[key: string]: Sales }>({});
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		setStands([
@@ -155,17 +158,20 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 										Object.entries(metrics).map(([date, metric]) => {
 											return {
 												name: date,
+												R$: metric.amount,
 												vendas: metric.sales,
-												R$: metric.amount
 											}
 										})
-									} dataValues={[{
-											value: 'vendas',
-											color: '#8884d8'
-										}, {
+									} dataValues={[
+										{
 											value: 'R$',
 											color: '#82ca9d'
-										}]}/>
+										},
+										{
+											value: 'vendas',
+											color: '#8884d8'
+										},
+									]}/>
 							)}
 						</CardAtom>
 					)}
@@ -187,6 +193,12 @@ const StandsOrganism: React.FC<StandsOrganism> = ({className, ...props}) => {
 									)}
 							</ButtonAtom>
 							<h2 className="flex-1 line-clamp-1">{stand.name}</h2>
+							<ButtonAtom
+								className="w-10 h-10 flex items-center justify-center"
+								onClick={() => navigate(`/barraquinhas/${stand.code}`)}
+							>
+								<ArrowBigRightDashIcon/>
+							</ButtonAtom>
 						</CardAtom>
 					)
 				})}
