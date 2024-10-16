@@ -5,6 +5,7 @@ import { LoginPage } from "@/presentation/pages/login.page";
 import { PanelPage } from "@/presentation/pages/panel.page";
 import { ErrorPage } from "@/presentation/pages/error.page";
 import { StandDetailsPage } from "@/presentation/pages/standDetails.page";
+import { ToastProviderMolecule } from "@/presentation/molecules/toastProvider.molecule";
 
 const routes = createBrowserRouter([
   {
@@ -37,6 +38,7 @@ const App = () => {
   return (
     <>
       <RouterProvider router={routes}/>
+      <ToastProviderMolecule/>
     </>
   );
 }

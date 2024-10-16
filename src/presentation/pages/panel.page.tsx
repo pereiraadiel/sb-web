@@ -1,10 +1,11 @@
 import { ComponentProps, useEffect, useMemo, useState } from "react";
-import { StoreIcon, ShoppingBasketIcon, TicketsIcon } from 'lucide-react'
-import { PanelTemplate } from "@/presentation/templates/panel.template";
-import { StandsOrganism } from "../organisms/stands.organism";
-import { ProductsOrganism } from "../organisms/products.organism";
-import { TicketsOrganism } from "../organisms/tickets.organism";
 import { useLocation, useNavigate } from 'react-router-dom'; // useNavigate para controlar a navegação
+import { StoreIcon, ShoppingBasketIcon, TicketsIcon } from 'lucide-react'
+
+import { PanelTemplate } from "@/presentation/templates/panel.template";
+import { StandsOrganism } from "@/presentation/organisms/stands.organism";
+import { ProductsOrganism } from "@/presentation/organisms/products.organism";
+import { TicketsOrganism } from "@/presentation/organisms/tickets.organism";
 
 type PageType = {
 	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes';

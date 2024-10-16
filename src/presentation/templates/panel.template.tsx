@@ -1,10 +1,12 @@
 import { ComponentProps } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { cn } from '@/core/lib/utils';
+import { AccessTokenService } from "@/domain/services/accessToken.service";
 import { MainTemplate } from "@/presentation/templates/main.template";
 import { SidebarOrganism } from "@/presentation/organisms/sidebar.organism";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
-import { SeparatorAtom } from "../atoms/separtator.atom";
+import { SeparatorAtom } from "@/presentation/atoms/separtator.atom";
 
 type PageType = {
 	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
@@ -22,11 +24,17 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 
 	const currentPageStyle = "bg-dark-tertiary text-light-primary";
 	const otherPageStyle = "bg-dark-secondary text-light-tertiary";
+	const navigate = useNavigate();
 	
 	const handlePageChange = (page: string) => {
 		if (onPageChange) {
 			onPageChange(page);
 		}
+	}
+
+	const handleLogout = () => {
+		new AccessTokenService().removeAccessToken();
+		navigate('/');
 	}
 
 	return (
@@ -52,7 +60,7 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 				
 				<SeparatorAtom className="my-3"/>
 
-				<ButtonAtom className="mb-2 bg-red-secondary text-light-primary">Sair</ButtonAtom>
+				<ButtonAtom className="mb-2 bg-red-secondary text-light-primary" onClick={handleLogout}>Sair</ButtonAtom>
       </SidebarOrganism>
 			
 			<div className="flex-1 flex items-center justify-center">
