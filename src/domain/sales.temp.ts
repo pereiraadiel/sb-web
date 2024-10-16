@@ -16,6 +16,21 @@ const salesTemp: Stand[] = [
     code: "1",
     metrics: [
       {
+        sales: 76,
+        amount: 760,
+        date: "2021-10-04",
+      },
+      {
+        sales: 101,
+        amount: 1010,
+        date: "2021-10-05",
+      },
+      {
+        sales: 101,
+        amount: 1010,
+        date: "2021-10-06",
+      },
+      {
         sales: 48,
         amount: 480,
         date: "2021-10-11",
@@ -36,6 +51,21 @@ const salesTemp: Stand[] = [
     name: "Pastel",
     code: "2",
     metrics: [
+      {
+        sales: 39,
+        amount: 390,
+        date: "2021-10-04",
+      },
+      {
+        sales: 127,
+        amount: 1270,
+        date: "2021-10-05",
+      },
+      {
+        sales: 100,
+        amount: 1000,
+        date: "2021-10-06",
+      },
       {
         sales: 35,
         amount: 350,
@@ -58,6 +88,21 @@ const salesTemp: Stand[] = [
     code: "3",
     metrics: [
       {
+        sales: 60,
+        amount: 720,
+        date: "2021-10-04",
+      },
+      {
+        sales: 101,
+        amount: 1212,
+        date: "2021-10-05",
+      },
+      {
+        sales: 100,
+        amount: 1200,
+        date: "2021-10-06",
+      },
+      {
         sales: 43,
         amount: 516,
         date: "2021-10-11",
@@ -78,6 +123,21 @@ const salesTemp: Stand[] = [
     name: "Cachorro quente",
     code: "4",
     metrics: [
+      {
+        sales: 33,
+        amount: 264,
+        date: "2021-10-04",
+      },
+      {
+        sales: 50,
+        amount: 400,
+        date: "2021-10-05",
+      },
+      {
+        sales: 48,
+        amount: 384,
+        date: "2021-10-06",
+      },
       {
         sales: 3,
         amount: 24,
@@ -100,6 +160,21 @@ const salesTemp: Stand[] = [
     code: "5",
     metrics: [
       {
+        sales: 12,
+        amount: 23,
+        date: "2021-10-04",
+      },
+      {
+        sales: 52,
+        amount: 104,
+        date: "2021-10-05",
+      },
+      {
+        sales: 59,
+        amount: 119,
+        date: "2021-10-06",
+      },
+      {
         sales: 0,
         amount: 0,
         date: "2021-10-11",
@@ -120,6 +195,21 @@ const salesTemp: Stand[] = [
     name: "Canjicada",
     code: "6",
     metrics: [
+      {
+        sales: 0,
+        amount: 0,
+        date: "2021-10-04",
+      },
+      {
+        sales: 0,
+        amount: 0,
+        date: "2021-10-05",
+      },
+      {
+        sales: 0,
+        amount: 0,
+        date: "2021-10-06",
+      },
       {
         sales: 11,
         amount: 88,
@@ -142,6 +232,21 @@ const salesTemp: Stand[] = [
     code: "7",
     metrics: [
       {
+        sales: 38,
+        amount: 77,
+        date: "2021-10-04",
+      },
+      {
+        sales: 43,
+        amount: 87,
+        date: "2021-10-05",
+      },
+      {
+        sales: 90,
+        amount: 180,
+        date: "2021-10-06",
+      },
+      {
         sales: 0,
         amount: 0,
         date: "2021-10-11",
@@ -162,6 +267,21 @@ const salesTemp: Stand[] = [
     name: "Bar",
     code: "8",
     metrics: [
+      {
+        sales: 38,
+        amount: 77,
+        date: "2021-10-04",
+      },
+      {
+        sales: 43,
+        amount: 87,
+        date: "2021-10-05",
+      },
+      {
+        sales: 140,
+        amount: 981,
+        date: "2021-10-06",
+      },
       {
         sales: 27,
         amount: 216,
