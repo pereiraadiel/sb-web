@@ -16,6 +16,7 @@ interface BarChartMoleculeProps {
 
 const CustomTooltip = ({ active, payload }: { active?: boolean, payload?: { name: string, value: number }[] }) => {
   if (active && payload && payload.length) {
+    console.log('payload: ',payload)
     return (
       <div className="bg-dark-tertiary p-2">
         {payload.map((item) => (
