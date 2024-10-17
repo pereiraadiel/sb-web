@@ -3,12 +3,9 @@ import { ComponentProps, FormEvent, useState } from "react";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
 import { InputAtom } from "@/presentation/atoms/input.atom";
 import { FormMolecule } from "@/presentation/molecules/form.molecule";
-import { AuthenticateAdminUsecase } from "@/domain/usecases/authenticateAdmin.usecase";
-import { AccessTokenService } from "@/domain/services/accessToken.service";
-import { ApiService } from "@/domain/services/api.service";
+import { useAuth } from "@/domain/hooks/auth.hook";
 import { useToast } from "@/domain/hooks/toast.hook";
 import { cn } from "@/core/lib/utils";
-import { useNavigate } from "react-router-dom";
 
 type LoginFormOrganism = ComponentProps<'form'>;
 
@@ -17,18 +14,13 @@ const LoginFormOrganism: React.FC<LoginFormOrganism> = ({className, ...props}) =
   const [success, setSuccess] = useState(false);
 	const [code, setCode] = useState("");
   const { addToast } = useToast();
-  const navigate = useNavigate()
+  const { authenticate, } = useAuth();
 
-  const handleNavigate = () => {
-    navigate('/barraquinhas');
-  }
 
-  const authenticate = async () => {
+  const handleAuthenticate = async () => {
     try {
-      const authenticateAdminUsecase = new AuthenticateAdminUsecase(new ApiService(), new AccessTokenService())
-      await authenticateAdminUsecase.execute(code);
+      authenticate(code);
       setSuccess(true);
-      handleNavigate();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error(err);
@@ -50,7 +42,7 @@ const LoginFormOrganism: React.FC<LoginFormOrganism> = ({className, ...props}) =
     setLoading(true)
 
     console.warn('autenticando...')
-    authenticate();
+    handleAuthenticate();
   }
 
 	return (

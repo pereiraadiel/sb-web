@@ -20,3 +20,17 @@ export class AuthenticateAdminUsecase {
     return response;
   }
 }
+
+// singleton
+let authenticateAdminUsecase: AuthenticateAdminUsecase;
+
+export const getAuthenticateAdminUsecase = (): AuthenticateAdminUsecase => {
+  if (!authenticateAdminUsecase) {
+    authenticateAdminUsecase = new AuthenticateAdminUsecase(
+      new ApiService(),
+      new AccessTokenService()
+    );
+  }
+
+  return authenticateAdminUsecase;
+};

@@ -2,11 +2,11 @@ import { ComponentProps } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { cn } from '@/core/lib/utils';
-import { AccessTokenService } from "@/domain/services/accessToken.service";
 import { MainTemplate } from "@/presentation/templates/main.template";
 import { SidebarOrganism } from "@/presentation/organisms/sidebar.organism";
 import { ButtonAtom } from "@/presentation/atoms/button.atom";
 import { SeparatorAtom } from "@/presentation/atoms/separtator.atom";
+import { useAuth } from "@/domain/hooks/auth.hook";
 
 type PageType = {
 	name: 'Barraquinhas' | 'Produtos' | 'Bilhetes'
@@ -25,6 +25,7 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 	const currentPageStyle = "bg-dark-tertiary text-light-primary";
 	const otherPageStyle = "bg-dark-secondary text-light-tertiary";
 	const navigate = useNavigate();
+	const { logout } = useAuth();
 	
 	const handlePageChange = (page: string) => {
 		if (onPageChange) {
@@ -33,7 +34,7 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 	}
 
 	const handleLogout = () => {
-		new AccessTokenService().removeAccessToken();
+		logout();
 		navigate('/');
 	}
 

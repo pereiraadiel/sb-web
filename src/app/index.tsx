@@ -6,6 +6,7 @@ import { PanelPage } from "@/presentation/pages/panel.page";
 import { ErrorPage } from "@/presentation/pages/error.page";
 import { StandDetailsPage } from "@/presentation/pages/standDetails.page";
 import { ToastProviderMolecule } from "@/presentation/molecules/toastProvider.molecule";
+import { PrivateRoute } from "./private.route";
 
 const routes = createBrowserRouter([
   {
@@ -14,19 +15,35 @@ const routes = createBrowserRouter([
   },
   {
     path: '/barraquinhas',
-    element: <PanelPage/>
+    element: (
+      <PrivateRoute>
+        <PanelPage/>
+      </PrivateRoute>
+    )
   },
   {
     path: '/barraquinhas/:code',
-    element: <StandDetailsPage/>
+    element: (
+      <PrivateRoute>
+        <StandDetailsPage/>
+      </PrivateRoute>
+    )
   },
   {
     path: '/produtos',
-    element: <PanelPage/>
+    element: (
+      <PrivateRoute>
+        <PanelPage/>
+      </PrivateRoute>
+    )
   },
   {
     path: '/bilhetes',
-    element: <PanelPage/>
+    element: (
+      <PrivateRoute>
+        <PanelPage/>
+      </PrivateRoute>
+    )
   },
   {
     path: '*',

@@ -1,3 +1,5 @@
+import { Encoder } from "@/core/lib/encode.util";
+
 export class LocalStorageService {
 	
 	/**
@@ -12,7 +14,9 @@ export class LocalStorageService {
 			return null;
 		}
 
-		const parsedItem = JSON.parse(item);
+		const decodedItem = Encoder.decode(item);
+
+		const parsedItem = JSON.parse(decodedItem);
 
 		if (parsedItem.expiry < new Date().getTime()) {
 			localStorage.removeItem(key);
@@ -36,7 +40,11 @@ export class LocalStorageService {
       expiry: now.getTime() + ttl,
     };
 
-    localStorage.setItem(key, JSON.stringify(item));
+		const itemString = JSON.stringify(item);
+
+		const encodedItem = Encoder.encode(itemString);
+
+    localStorage.setItem(key, encodedItem);
   }
 
 	/**

@@ -13,3 +13,14 @@ export class AccessTokenService {
 		localStorageSingleton.removeItem('tessera@accessToken');
 	}
 }
+
+//singleton
+let accessTokenService: AccessTokenService;
+
+export const getAccessTokenService = (): AccessTokenService => {
+	if (!accessTokenService) {
+		accessTokenService = new AccessTokenService();
+	}
+
+	return accessTokenService;
+};

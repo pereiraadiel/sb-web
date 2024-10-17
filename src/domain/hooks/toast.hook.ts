@@ -43,7 +43,6 @@ const useToast = create<UseToast>((set) => ({
       ],
     }));
 
-    // Define a remoção automática do toast após 'expiresIn' segundos
     setTimeout(() => {
       set((state) => ({
         toasts: state.toasts.filter((toast) => toast.id !== id),
