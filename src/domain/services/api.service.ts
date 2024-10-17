@@ -28,7 +28,8 @@ export class ApiService {
 
   public async post<T>(
     url: string,
-    body: { [key: string]: string | number }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: { [key: string]: any }
   ): Promise<T> {
     const response = await this.axios.post<T>(url, body, {
       headers: {
@@ -41,7 +42,8 @@ export class ApiService {
 
   public async put<T>(
     url: string,
-    body: { [key: string]: string | number }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    body: { [key: string]: any }
   ): Promise<T> {
     const response = await this.axios.put<T>(url, body, {
       headers: {
