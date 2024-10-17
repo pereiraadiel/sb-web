@@ -64,7 +64,7 @@ const PanelTemplate: React.FC<PanelTemplate> = ({children, currentPage, onPageCh
 				<ButtonAtom className="mb-2 bg-red-secondary text-light-primary" onClick={handleLogout}>Sair</ButtonAtom>
       </SidebarOrganism>
 			
-			<div className="flex-1 flex items-center justify-center">
+			<div className="flex-1 flex-col items-center justify-center">
 				{children}
 			</div>
 		</MainTemplate>
