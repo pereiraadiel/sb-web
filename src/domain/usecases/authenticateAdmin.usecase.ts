@@ -8,12 +8,9 @@ export class AuthenticateAdminUsecase {
   ) {}
 
   public async execute(code: string): Promise<{ token: string }> {
-    console.log("AuthenticateAdminUsecase · code: ", code);
     const response = await this.apiService.post<{ token: string }>("/auth", {
       code,
     });
-
-    console.log("AuthenticateAdminUsecase · response: ", response);
 
     this.accessTokenService.storeAccessToken(response.token);
 

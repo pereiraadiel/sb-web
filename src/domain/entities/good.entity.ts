@@ -1,7 +1,8 @@
 export type Good = {
-  id: string;
-  fullname: string;
-  category: string;
-  description: string;
-  priceCents: number;
+  id: string,
+  category: string,
+  fullname: string,
+  description: string,
+  priceCents: number,
+  createdAt: Date,
 };

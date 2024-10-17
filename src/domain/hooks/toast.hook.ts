@@ -35,7 +35,7 @@ const useToast = create<UseToast>((set) => ({
   toasts: [],
 
   addToast: (message: string, variant: ToastVariant, expiresIn = 4) => {
-    const id = Math.random().toString();
+    const id = btoa(Math.random().toString());
     set((state) => ({
       toasts: [
         ...state.toasts,

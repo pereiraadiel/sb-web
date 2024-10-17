@@ -5,10 +5,11 @@ import { getAccessTokenService } from "@/domain/services/accessToken.service";
 
 type UseAuth = {
   isAuthenticated: boolean;
+  error?: string;
   verifyAuthentication: () => void;
   accessToken?: string;
   authenticate: (code: string) => Promise<void>;
-	logout: () => void;
+  logout: () => void;
 };
 
 const authenticateAdminUsecase = getAuthenticateAdminUsecase();
@@ -18,7 +19,11 @@ const useAuth = create<UseAuth>((set) => {
     authenticate: async (code: string) => {
       try {
         const token = await authenticateAdminUsecase.execute(code);
-        set({ isAuthenticated: true, accessToken: token.token });
+        set({
+          isAuthenticated: true,
+          accessToken: token.token,
+          error: undefined,
+        });
 
         setInterval(() => {
           const accessTokenService = getAccessTokenService();
@@ -26,10 +31,18 @@ const useAuth = create<UseAuth>((set) => {
           set(() => ({
             isAuthenticated: !!isStillAuthenticated,
             accessToken: isStillAuthenticated || undefined,
+            error: undefined,
           }));
         }, 30 * 1000); // 30 seconds
-      } catch (error) {
-        set({ isAuthenticated: false });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        // console.error("useAuth · authenticate: ", err);
+        const errors: Record<string, string> = {
+          401: "Código inválido",
+          429: "Muitas tentativas, tente novamente mais tarde",
+        };
+        const message = errors[err.status] || "Erro ao autenticar";
+        set({ isAuthenticated: false, error: `${btoa(Math.random().toString())}.${err.status} · ${message}` });
       }
     },
     verifyAuthentication: () => {
@@ -40,17 +53,22 @@ const useAuth = create<UseAuth>((set) => {
           set(() => ({
             isAuthenticated: !!isStillAuthenticated,
             accessToken: isStillAuthenticated || undefined,
+            error: undefined,
           }));
         }, 30 * 1000);
       } catch (error) {
-        set({ isAuthenticated: false, accessToken: undefined });
+        set({
+          isAuthenticated: false,
+          accessToken: undefined,
+          error: "Erro ao verificar autenticação",
+        });
       }
     },
-		logout: () => {
-			const accessTokenService = getAccessTokenService();
-			accessTokenService.removeAccessToken();
-			set({ isAuthenticated: false, accessToken: undefined });
-		},
+    logout: () => {
+      const accessTokenService = getAccessTokenService();
+      accessTokenService.removeAccessToken();
+      set({ isAuthenticated: false, accessToken: undefined, error: undefined });
+    },
     isAuthenticated: false,
   };
 });
