@@ -13,3 +13,5 @@ COPY . .
 
 # Build the Vite app
 RUN yarn build
+
+CMD [ "yarn", "start" ]
