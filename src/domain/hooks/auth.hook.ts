@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
-import { getAuthenticateAdminUsecase } from "@/domain/usecases/authenticateAdmin.usecase";
-import { getAccessTokenService } from "@/domain/services/accessToken.service";
+import { AuthenticateAdminUsecase } from "@/domain/usecases/authenticateAdmin.usecase";
+import { AccessTokenService } from "@/domain/services/accessToken.service";
 
 type UseAuth = {
   isAuthenticated: boolean;
@@ -12,7 +12,7 @@ type UseAuth = {
   logout: () => void;
 };
 
-const authenticateAdminUsecase = getAuthenticateAdminUsecase();
+const authenticateAdminUsecase = AuthenticateAdminUsecase.singleton();
 
 const useAuth = create<UseAuth>((set) => {
   return {
@@ -26,7 +26,7 @@ const useAuth = create<UseAuth>((set) => {
         });
 
         setInterval(() => {
-          const accessTokenService = getAccessTokenService();
+          const accessTokenService = AccessTokenService.singleton();
           const isStillAuthenticated = accessTokenService.getAccessToken();
           set(() => ({
             isAuthenticated: !!isStillAuthenticated,
@@ -48,7 +48,7 @@ const useAuth = create<UseAuth>((set) => {
     verifyAuthentication: () => {
       try {
         setInterval(() => {
-          const accessTokenService = getAccessTokenService();
+          const accessTokenService = AccessTokenService.singleton();
           const isStillAuthenticated = accessTokenService.getAccessToken();
           set(() => ({
             isAuthenticated: !!isStillAuthenticated,
@@ -65,7 +65,7 @@ const useAuth = create<UseAuth>((set) => {
       }
     },
     logout: () => {
-      const accessTokenService = getAccessTokenService();
+      const accessTokenService = AccessTokenService.singleton();
       accessTokenService.removeAccessToken();
       set({ isAuthenticated: false, accessToken: undefined, error: undefined });
     },
