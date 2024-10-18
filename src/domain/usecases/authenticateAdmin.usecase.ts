@@ -1,8 +1,20 @@
 import { ApiService } from "@/domain/services/api.service";
 import { AccessTokenService } from "@/domain/services/accessToken.service";
 
-export class AuthenticateAdminUsecase {
-  constructor(
+class AuthenticateAdminUsecase {
+  private static instance: AuthenticateAdminUsecase | null = null;
+
+  public static singleton(): AuthenticateAdminUsecase {
+    if (!AuthenticateAdminUsecase.instance) {
+      AuthenticateAdminUsecase.instance = new AuthenticateAdminUsecase(
+        ApiService.singleton(),
+        AccessTokenService.singleton()
+      );
+    }
+    return AuthenticateAdminUsecase.instance;
+  }
+
+  private constructor(
     private readonly apiService: ApiService,
     private readonly accessTokenService: AccessTokenService
   ) {}
@@ -18,16 +30,4 @@ export class AuthenticateAdminUsecase {
   }
 }
 
-// singleton
-let authenticateAdminUsecase: AuthenticateAdminUsecase;
-
-export const getAuthenticateAdminUsecase = (): AuthenticateAdminUsecase => {
-  if (!authenticateAdminUsecase) {
-    authenticateAdminUsecase = new AuthenticateAdminUsecase(
-      new ApiService(),
-      new AccessTokenService()
-    );
-  }
-
-  return authenticateAdminUsecase;
-};
+export { AuthenticateAdminUsecase };

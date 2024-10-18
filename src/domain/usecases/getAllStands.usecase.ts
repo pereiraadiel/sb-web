@@ -1,18 +1,18 @@
-import { Good } from "@/domain/entities/good.entity";
+import { Stand } from "@/domain/entities/stand.entity";
 import { ApiService } from "@/domain/services/api.service";
 import { AccessTokenService } from "@/domain/services/accessToken.service";
 
-class CreateGoodUsecase {
-  private static instance: CreateGoodUsecase | null = null;
+class GetAllStandsUsecase {
+  private static instance: GetAllStandsUsecase | null = null;
 
-  public static singleton(): CreateGoodUsecase {
-    if (!CreateGoodUsecase.instance) {
-      CreateGoodUsecase.instance = new CreateGoodUsecase(
+  public static singleton(): GetAllStandsUsecase {
+    if (!GetAllStandsUsecase.instance) {
+      GetAllStandsUsecase.instance = new GetAllStandsUsecase(
         ApiService.singleton(),
         AccessTokenService.singleton()
       );
     }
-    return CreateGoodUsecase.instance;
+    return GetAllStandsUsecase.instance;
   }
 
   private constructor(
@@ -20,13 +20,13 @@ class CreateGoodUsecase {
     private readonly accessTokenService: AccessTokenService
   ) {}
 
-  public async execute(good: Omit<Good, "id">): Promise<Good> {
+  public async execute(): Promise<Stand[]> {
     const token = this.accessTokenService.getAccessToken();
     if (token === null) {
       throw new Error("Access token not found");
     }
-    return this.apiService.useAccessToken(token).post<Good>("/goods", good);
+    return this.apiService.useAccessToken(token).get<Stand[]>("/stands");
   }
 }
 
-export { CreateGoodUsecase };
+export { GetAllStandsUsecase };

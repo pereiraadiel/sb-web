@@ -2,8 +2,21 @@ import { Stand } from "@/domain/entities/stand.entity";
 import { ApiService } from "@/domain/services/api.service";
 import { AccessTokenService } from "@/domain/services/accessToken.service";
 
-export class CreateStandUsecase {
-  constructor(
+class CreateStandUsecase {
+  private static instance: CreateStandUsecase | null = null;
+
+  public static singleton(): CreateStandUsecase {
+    if (!CreateStandUsecase.instance) {
+      CreateStandUsecase.instance = new CreateStandUsecase(
+        ApiService.singleton(),
+        AccessTokenService.singleton()
+      );
+    }
+    return CreateStandUsecase.instance;
+  }
+
+
+  private constructor(
     private readonly apiService: ApiService,
     private readonly accessTokenService: AccessTokenService
   ) {}
@@ -16,3 +29,5 @@ export class CreateStandUsecase {
     return this.apiService.useAccessToken(token).post<Stand>("/stands", stand);
   }
 }
+
+export { CreateStandUsecase };

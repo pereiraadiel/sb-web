@@ -2,8 +2,20 @@ import { Ticket } from "@/domain/entities/ticket.entity";
 import { ApiService } from "@/domain/services/api.service";
 import { AccessTokenService } from "@/domain/services/accessToken.service";
 
-export class CreateTicketsUsecase {
-  constructor(
+class CreateTicketsUsecase {
+  private static instance: CreateTicketsUsecase | null = null;
+
+  public static singleton(): CreateTicketsUsecase {
+    if (!CreateTicketsUsecase.instance) {
+      CreateTicketsUsecase.instance = new CreateTicketsUsecase(
+        ApiService.singleton(),
+        AccessTokenService.singleton()
+      );
+    }
+    return CreateTicketsUsecase.instance;
+  }
+
+  private constructor(
     private readonly apiService: ApiService,
     private readonly accessTokenService: AccessTokenService
   ) {}
@@ -18,3 +30,5 @@ export class CreateTicketsUsecase {
     });
   }
 }
+
+export { CreateTicketsUsecase };

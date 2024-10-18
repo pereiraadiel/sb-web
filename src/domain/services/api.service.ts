@@ -1,11 +1,19 @@
 import axios, { AxiosInstance } from "axios";
 
-export class ApiService {
+class ApiService {
   private accessToken: string | null = null;
   private axios: AxiosInstance;
   private defaultUrl = "http://localhost:3000";
+  private static instance: ApiService | null = null;
 
-  constructor() {
+  public static singleton(): ApiService {
+    if (!ApiService.instance) {
+      ApiService.instance = new ApiService();
+    }
+    return ApiService.instance;
+  }
+
+  private constructor() {
     this.accessToken = null;
     this.axios = axios.create({
       baseURL: this.defaultUrl,
@@ -63,3 +71,5 @@ export class ApiService {
     return response.data;
   }
 }
+
+export { ApiService };

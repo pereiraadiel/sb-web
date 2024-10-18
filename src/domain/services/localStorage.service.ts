@@ -1,37 +1,46 @@
 import { Encoder } from "@/core/lib/encode.util";
 
-export class LocalStorageService {
-	
-	/**
-	 *
-	 * @param key string
-	 * @returns item from local storage
-	 */
-	getItem<T>(key: string): T | null {
-		const item = localStorage.getItem(key);
+class LocalStorageService {
+  private static instance: LocalStorageService | null = null;
 
-		if (!item) {
-			return null;
-		}
+  public static singleton(): LocalStorageService {
+    if (!LocalStorageService.instance) {
+      LocalStorageService.instance = new LocalStorageService();
+    }
+    return LocalStorageService.instance;
+  }
 
-		const decodedItem = Encoder.decode(item);
+  private constructor() {}
+  /**
+   *
+   * @param key string
+   * @returns item from local storage
+   */
+  getItem<T>(key: string): T | null {
+    const item = localStorage.getItem(key);
 
-		const parsedItem = JSON.parse(decodedItem);
+    if (!item) {
+      return null;
+    }
 
-		if (parsedItem.expiry < new Date().getTime()) {
-			localStorage.removeItem(key);
-			return null;
-		}
+    const decodedItem = Encoder.decode(item);
 
-		return parsedItem.value as T;
-	}
+    const parsedItem = JSON.parse(decodedItem);
 
-	/**
-	 * 
-	 * @param key string
-	 * @param value item to store
-	 * @param ttl in milliseconds
-	 */
+    if (parsedItem.expiry < new Date().getTime()) {
+      localStorage.removeItem(key);
+      return null;
+    }
+
+    return parsedItem.value as T;
+  }
+
+  /**
+   *
+   * @param key string
+   * @param value item to store
+   * @param ttl in milliseconds
+   */
   setItemWithTTL<T>(key: string, value: T, ttl: number) {
     const now = new Date();
 
@@ -40,22 +49,20 @@ export class LocalStorageService {
       expiry: now.getTime() + ttl,
     };
 
-		const itemString = JSON.stringify(item);
+    const itemString = JSON.stringify(item);
 
-		const encodedItem = Encoder.encode(itemString);
+    const encodedItem = Encoder.encode(itemString);
 
     localStorage.setItem(key, encodedItem);
   }
 
-	/**
-	 * 
-	 * @param key string
-	 */
-	removeItem(key: string) {
-		localStorage.removeItem(key);
-	}
+  /**
+   *
+   * @param key string
+   */
+  removeItem(key: string) {
+    localStorage.removeItem(key);
+  }
 }
 
-const localStorageSingleton = new LocalStorageService();
-
-export default localStorageSingleton;
+export { LocalStorageService };
